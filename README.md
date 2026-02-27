@@ -301,12 +301,12 @@ Implementar consulta GraphQL para coletar dados de 100 repositórios populares c
 
 📌 Status das RQs na Sprint 1
 RQ	Métricas Coletadas	RQ Respondida?
-RQ01	✔	❌
-RQ02	✔	❌
-RQ03	✔	❌
-RQ04	✔	❌
-RQ05	✔	❌
-RQ06	✔	❌
+        RQ01	✔	❌
+        RQ02	✔	❌
+        RQ03	✔	❌
+        RQ04	✔	❌
+        RQ05	✔	❌
+        RQ06	✔	❌
 
 Observação:
 Nesta sprint foi realizada apenas a coleta das métricas necessárias.
@@ -325,12 +325,12 @@ As RQs ainda não foram respondidas, pois não houve análise estatística ou in
 
 📌 Status esperado
 RQ	Métricas Coletadas	Análise Parcial	RQ Respondida?
-RQ01	✔	✔	❌
-RQ02	✔	✔	❌
-RQ03	✔	✔	❌
-RQ04	✔	✔	❌
-RQ05	✔	✔	❌
-RQ06	✔	✔	❌
+    RQ01	✔	✔	❌
+    RQ02	✔	✔	❌
+    RQ03	✔	✔	❌
+    RQ04	✔	✔	❌
+    RQ05	✔	✔	❌
+    RQ06	✔	✔	❌
 
 🔵 Sprint 3 — Lab01S03 (Planejada)
 🎯 Objetivo
@@ -347,12 +347,12 @@ RQ06	✔	✔	❌
 
 📌 Status esperado
 RQ	Métricas Coletadas	Análise Estatística	RQ Respondida?
-RQ01	✔	✔	✔
-RQ02	✔	✔	✔
-RQ03	✔	✔	✔
-RQ04	✔	✔	✔
-RQ05	✔	✔	✔
-RQ06	✔	✔	✔
+    RQ01	✔	✔	✔
+    RQ02	✔	✔	✔
+    RQ03	✔	✔	✔
+    RQ04	✔	✔	✔
+    RQ05	✔	✔	✔
+    RQ06	✔	✔	✔
 
 👨‍💻 Autor
 
