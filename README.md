@@ -272,16 +272,14 @@ O script realizará automaticamente a requisição e exibirá os dados coletados
 
 📂 Estrutura do Projeto
 
-Plain Text
 
-
-lab01-experimentacao-software/
-│
-├── lab01s01.py
-├── queries.py
-├── .env
-├── requirements.txt
-└── README.md
+        lab01-experimentacao-software/
+        │
+        ├── lab01s01.py
+        ├── queries.py
+        ├── .env
+        ├── requirements.txt
+        └── README.md
 
 
 
