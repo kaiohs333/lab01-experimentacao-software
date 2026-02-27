@@ -272,7 +272,6 @@ O script realizará automaticamente a requisição e exibirá os dados coletados
 
 📂 Estrutura do Projeto
 
-
         lab01-experimentacao-software/
         │
         ├── lab01s01.py
