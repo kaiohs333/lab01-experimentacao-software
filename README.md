@@ -227,44 +227,28 @@ Pré-requisitos
 
 Passos
 
-1.
-Clone o repositório:
+1.Clone o repositório:
 
-Bash
-
-
-git clone https://github.com/seu-usuario/lab01-experimentacao-software.git
+    git clone https://github.com/seu-usuario/lab01-experimentacao-software.git
 
 
 
 
-2.
-Acesse a pasta:
+2.Acesse a pasta:
 
-Bash
-
-
-cd lab01-experimentacao-software
+        cd lab01-experimentacao-software
 
 
 
-3.
-Instale as dependências:
+3.Instale as dependências:
 
-Bash
-
-
-pip install -r requirements.txt
+        pip install -r requirements.txt
 
 
 
-4.
-Execute o script:
+4.Execute o script:
 
-Bash
-
-
-python lab01s01.py
+        python lab01s01.py
 
 
 
