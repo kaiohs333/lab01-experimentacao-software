@@ -118,20 +118,20 @@ Estratégia adotada
 
 A consulta foi estruturada utilizando o filtro:
 
-stars:>10000 sort:stars-desc
+        stars:>10000 sort:stars-desc
 
 🔎 Implementação Técnica
 
 A requisição é realizada via:
 
-Python
+        Python
 
 
-requests.post(
-    "https://api.github.com/graphql",
-    json={"query": QUERY_100_REPOS},
-    headers=headers
- )
+        requests.post(
+            "https://api.github.com/graphql",
+            json={"query": QUERY_100_REPOS},
+            headers=headers
+        )
 
 
 
@@ -139,35 +139,32 @@ A consulta utiliza Inline Fragment, pois o campo search retorna um tipo Union (S
 
 Estrutura principal da query:
 
-Plain Text
-
-
-query {
-  search(query: "stars:>10000 sort:stars-desc", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        createdAt
-        updatedAt
-        primaryLanguage {
-          name
+        query {
+        search(query: "stars:>10000 sort:stars-desc", type: REPOSITORY, first: 100) {
+            nodes {
+            ... on Repository {
+                nameWithOwner
+                createdAt
+                updatedAt
+                primaryLanguage {
+                name
+                }
+                pullRequests(states: MERGED) {
+                totalCount
+                }
+                releases {
+                totalCount
+                }
+                issues {
+                totalCount
+                }
+                closedIssues: issues(states: CLOSED) {
+                totalCount
+                }
+            }
+            }
         }
-        pullRequests(states: MERGED) {
-          totalCount
         }
-        releases {
-          totalCount
-        }
-        issues {
-          totalCount
-        }
-        closedIssues: issues(states: CLOSED) {
-          totalCount
-        }
-      }
-    }
-  }
-}
 
 
 
@@ -177,45 +174,45 @@ query {
 
 Ao solicitar 100 repositórios com múltiplas métricas aninhadas, a API retornou:
 
-502 Bad Gateway
+        502 Bad Gateway
 
 Causa
 
 Alta complexidade da query (limitação da API GraphQL do GitHub).
 
-Solução
+Solução:
 
-Simplificação e validação progressiva da consulta.
+→ Simplificação e validação progressiva da consulta.
 
 2️⃣ Erro de Sintaxe GraphQL
 
 Erro retornado:
 
-Expected NAME, actual: ("\n")
+        Expected NAME, actual: ("\n")
 
 Causa
 
-Chaves {} não fechadas corretamente.
+→ Chaves {} não fechadas corretamente.
 
-Solução
+Solução:
 
-Reestruturação da query garantindo fechamento adequado dos blocos.
+→ Reestruturação da query garantindo fechamento adequado dos blocos.
 
 3️⃣ Erro de Union Type
 
 Erro retornado:
 
-Selections can't be made directly on unions
+        Selections can't be made directly on unions
 
-Causa
+Causa:
 
-Tentativa de acessar campos diretamente em um tipo Union.
+→ Tentativa de acessar campos diretamente em um tipo Union.
 
-Solução
+Solução:
 
-Uso de Inline Fragment:
+→ Uso de Inline Fragment:
 
-... on Repository
+        ... on Repository
 
 🚀 Como Executar o Projeto
 
