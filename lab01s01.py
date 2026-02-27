@@ -2,9 +2,9 @@ import os
 import requests
 import json
 from dotenv import load_dotenv
-from queries import QUERY_100_REPOS # Importamos a variável do outro arquivo
+from queries import QUERY_100_REPOS # variável do outro arquivo
 
-# 1. Carrega as variáveis de ambiente do arquivo .env
+# Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
 # Pega o token de forma segura

@@ -1,4 +1,4 @@
-# Criamos uma variável constante (em letras maiúsculas) para guardar a string
+
 QUERY_100_REPOS = """
 {
   search(query: "stars:>10000 sort:stars-desc", type: REPOSITORY, first: 100) {
