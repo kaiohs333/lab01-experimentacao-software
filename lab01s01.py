@@ -1,3 +1,9 @@
+"""
+Lab01S01: Consulta graphql para 100 repositórios 
+(com todos os dados/métricas necessários para responder
+as RQs) + requisição automática 
+"""
+
 import os
 import requests
 import json

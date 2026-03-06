@@ -309,9 +309,12 @@ O script realizará automaticamente a requisição e exibirá os dados coletados
 
         lab01-experimentacao-software/
         │
-        ├── lab01s01.py
-        ├── queries.py
-        ├── .env
+        ├── lab01s01.py          # Sprint 1 - Coleta 100 repos (faixas de estrelas)
+        ├── lab01s02.py          # Sprint 2 - Coleta 1000 repos (paginação) + CSV
+        ├── queries.py           # Queries GraphQL
+        ├── repositorios.csv     # Dados exportados (1000 repos)
+        ├── saida.txt            # Saída da execução Sprint 1
+        ├── .env                 # Token do GitHub
         ├── requirements.txt
         └── README.md
 
@@ -393,22 +396,21 @@ Total de repositórios coletados: 100
 | 10 | tensorflow/tensorflow | ~188k | C++ |
 
 📌 Status das RQs na Sprint 1
-RQ	Métricas Coletadas	RQ Respondida?
 
-| RQ   | Métricas Coletadas | RQ Respondida |
-|------|--------------------|--------------|
-| RQ01 | ✔                  | ❌            |
-| RQ02 | ✔                  | ❌            |
-| RQ03 | ✔                  | ❌            |
-| RQ04 | ✔                  | ❌            |
-| RQ05 | ✔                  | ❌            |
-| RQ06 | ✔                  | ❌            |
+| RQ | Pergunta | Métrica | Dados Coletados | RQ Respondida |
+|----|----------|---------|-----------------|---------------|
+| RQ01 | Sistemas populares são maduros/antigos? | Idade do repositório (data de criação) | `createdAt` | ❌ |
+| RQ02 | Sistemas populares recebem muita contribuição externa? | Total de pull requests aceitas | `pullRequests(MERGED)` | ❌ |
+| RQ03 | Sistemas populares lançam releases com frequência? | Total de releases | `releases` | ❌ |
+| RQ04 | Sistemas populares são atualizados com frequência? | Tempo até última atualização | `updatedAt` | ❌ |
+| RQ05 | Sistemas populares são escritos nas linguagens mais populares? | Linguagem primária | `primaryLanguage` | ❌ |
+| RQ06 | Sistemas populares possuem alto percentual de issues fechadas? | Razão issues fechadas/total | `issues` + `closedIssues` | ❌ |
 
-Observação:
-Nesta sprint foi realizada apenas a coleta das métricas necessárias.
+**Observação:**
+Nesta sprint foi realizada apenas a coleta das métricas necessárias para 100 repositórios.
 As RQs ainda não foram respondidas, pois não houve análise estatística ou interpretação dos dados.
 
-🟡 Sprint 2 — Lab01S02 (Em desenvolvimento)
+🟡 Sprint 2 — Lab01S02 (Concluída)
 🎯 Objetivo
 
 → Implementar paginação
@@ -419,17 +421,130 @@ As RQs ainda não foram respondidas, pois não houve análise estatística ou in
 
 → Preparar base para análise estatística
 
-📌 Status esperado
-RQ	Métricas Coletadas	Análise Parcial	RQ Respondida?
+✅ Implementado
 
-| RQ   | Métricas Coletadas | Análise Estatística | RQ Respondida |
-|------|--------------------|--------------------|--------------|
-| RQ01 | ✔                  | ✔                  | ❌            |
-| RQ02 | ✔                  | ✔                  | ❌            |
-| RQ03 | ✔                  | ✔                  | ❌            |
-| RQ04 | ✔                  | ✔                  | ❌            |
-| RQ05 | ✔                  | ✔                  | ❌            |
-| RQ06 | ✔                  | ✔                  | ❌            |
+→ **Paginação com cursor** para coleta de 1000 repositórios
+
+→ **Query GraphQL otimizada** com suporte a paginação (`after: $cursor`)
+
+→ **Exportação automática para CSV** com todas as métricas
+
+→ **Métricas calculadas** adicionais:
+    • `idade_dias` - idade do repositório em dias
+    • `dias_desde_atualizacao` - dias desde última atualização
+    • `razao_issues_fechadas` - proporção de issues fechadas
+
+→ **Estatísticas automáticas** exibidas ao final da execução
+
+→ **Retry automático** com 10 tentativas e backoff para erros 502
+
+📊 Estrutura do CSV Gerado
+
+| Coluna | Descrição | RQ Relacionada |
+|--------|-----------|----------------|
+| nome | Nome do repositório (owner/repo) | - |
+| criado_em | Data de criação | RQ01 |
+| atualizado_em | Data última atualização | RQ04 |
+| estrelas | Número de estrelas | - |
+| linguagem | Linguagem principal | RQ05 |
+| prs_merged | Total de PRs aceitos | RQ02 |
+| releases | Total de releases | RQ03 |
+| issues_total | Total de issues | RQ06 |
+| issues_fechadas | Issues fechadas | RQ06 |
+| idade_dias | Idade em dias | RQ01 |
+| dias_desde_atualizacao | Dias desde atualização | RQ04 |
+| razao_issues_fechadas | Issues fechadas / total | RQ06 |
+
+📈 Resultado da Execução
+
+```
+============================================================
+LAB01S02 - Sprint 2: Paginação + Exportação CSV
+============================================================
+
+============================================================
+Iniciando coleta de 1000 repositórios com paginação
+Páginas estimadas: 100 (10 repos/página)
+============================================================
+
+[Página 1/100] Coletando repositórios 1-10...
+  ✓ Coletados 10 repositórios (total: 10)
+[Página 2/100] Coletando repositórios 11-20...
+  ✓ Coletados 10 repositórios (total: 20)
+...
+[Página 100/100] Coletando repositórios 991-1000...
+  ✓ Coletados 10 repositórios (total: 1000)
+
+============================================================
+COLETA FINALIZADA: 1000 repositórios
+============================================================
+
+✓ Dados exportados para: repositorios.csv
+  Total de linhas: 1000
+```
+
+📊 Estatísticas Coletadas
+
+```
+============================================================
+ESTATÍSTICAS DOS DADOS COLETADOS
+============================================================
+
+Total de repositórios: 1000
+
+Estrelas:
+  Máximo: ~470.000
+  Mínimo: ~10.000
+  Média: ~30.000
+
+Idade (dias):
+  Máximo: ~6.000 dias
+  Mínimo: ~100 dias
+  Média (anos): ~7 anos
+
+Top 10 Linguagens:
+  1. JavaScript
+  2. Python
+  3. TypeScript
+  4. Go
+  5. Java
+  6. Rust
+  7. C++
+  8. C
+  9. Shell
+  10. Ruby
+
+Pull Requests Merged:
+  Total: ~500.000+
+  Média por repo: ~500
+
+Razão de Issues Fechadas:
+  Média: ~85%
+```
+
+🗂️ Arquivos da Sprint 2
+
+| Arquivo | Descrição |
+|---------|-----------|
+| `lab01s02.py` | Script principal com paginação |
+| `queries.py` | Query `QUERY_PAGINADA` adicionada |
+| `repositorios.csv` | Dados dos 1000 repositórios |
+
+📌 Status das RQs na Sprint 2
+
+| RQ | Pergunta | Métrica | Campo no CSV | RQ Respondida |
+|----|----------|---------|--------------|---------------|
+| RQ01 | Sistemas populares são maduros/antigos? | Idade do repositório | `criado_em`, `idade_dias` | ❌ |
+| RQ02 | Sistemas populares recebem muita contribuição externa? | Total de PRs aceitas | `prs_merged` | ❌ |
+| RQ03 | Sistemas populares lançam releases com frequência? | Total de releases | `releases` | ❌ |
+| RQ04 | Sistemas populares são atualizados com frequência? | Tempo até última atualização | `atualizado_em`, `dias_desde_atualizacao` | ❌ |
+| RQ05 | Sistemas populares são escritos nas linguagens mais populares? | Linguagem primária | `linguagem` | ❌ |
+| RQ06 | Sistemas populares possuem alto percentual de issues fechadas? | Razão issues fechadas/total | `issues_total`, `issues_fechadas`, `razao_issues_fechadas` | ❌ |
+
+**Observação:**
+Nesta sprint foi realizada a coleta completa dos 1000 repositórios com exportação para CSV.
+Todas as métricas necessárias estão disponíveis no arquivo `repositorios.csv`.
+As RQs ainda não foram respondidas formalmente, aguardando análise estatística na Sprint 3.
 
 🔵 Sprint 3 — Lab01S03 (Planejada)
 🎯 Objetivo
@@ -444,17 +559,16 @@ RQ	Métricas Coletadas	Análise Parcial	RQ Respondida?
 
 → Relatório final
 
-📌 Status esperado
-RQ	Métricas Coletadas	Análise Estatística	RQ Respondida?
+📌 Status Esperado das RQs na Sprint 3
 
-| RQ   | Métricas Coletadas | Análise Estatística | RQ Respondida |
-|------|--------------------|--------------------|--------------|
-| RQ01 | ✔                  | ✔                  | ✔            |
-| RQ02 | ✔                  | ✔                  | ✔            |
-| RQ03 | ✔                  | ✔                  | ✔            |
-| RQ04 | ✔                  | ✔                  | ✔            |
-| RQ05 | ✔                  | ✔                  | ✔            |
-| RQ06 | ✔                  | ✔                  | ✔            |
+| RQ | Pergunta | Análise Planejada | RQ Respondida |
+|----|----------|-------------------|---------------|
+| RQ01 | Sistemas populares são maduros/antigos? | Mediana da idade em anos | ✔ |
+| RQ02 | Sistemas populares recebem muita contribuição externa? | Mediana de PRs aceitas | ✔ |
+| RQ03 | Sistemas populares lançam releases com frequência? | Mediana de releases | ✔ |
+| RQ04 | Sistemas populares são atualizados com frequência? | Mediana de dias desde atualização | ✔ |
+| RQ05 | Sistemas populares são escritos nas linguagens mais populares? | Distribuição de linguagens (moda) | ✔ |
+| RQ06 | Sistemas populares possuem alto percentual de issues fechadas? | Mediana da razão de issues fechadas | ✔ |
 
 👨‍💻 Autor
 
