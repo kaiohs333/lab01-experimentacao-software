@@ -98,11 +98,17 @@ Estratégia adotada
 
 •Requisição automática com Python (requests)
 
+•**Busca por lotes usando faixas de estrelas** (sem paginação)
+
+•Mecanismo de **retry automático** com backoff
+
 •Coleta das seguintes métricas:
 
     •createdAt
 
     •updatedAt
+
+    •stargazerCount
 
     •pullRequests(states: MERGED)
 
@@ -115,6 +121,23 @@ Estratégia adotada
     •primaryLanguage
 
 
+
+**Estratégia de Busca por Faixas de Estrelas**
+
+Devido a limitações da API (erro 502), foi implementada uma estratégia de busca em **10 lotes de 10 repositórios**, cada um filtrando por uma faixa específica de estrelas:
+
+| Lote | Faixa de Estrelas |
+|------|-------------------|
+| 1 | ≥ 200.000 |
+| 2 | 150.000 - 199.999 |
+| 3 | 120.000 - 149.999 |
+| 4 | 100.000 - 119.999 |
+| 5 | 85.000 - 99.999 |
+| 6 | 70.000 - 84.999 |
+| 7 | 60.000 - 69.999 |
+| 8 | 50.000 - 59.999 |
+| 9 | 45.000 - 49.999 |
+| 10 | 40.000 - 44.999 |
 
 A consulta foi estruturada utilizando o filtro:
 
@@ -170,19 +193,33 @@ Estrutura principal da query:
 
 ⚠️ Problemas Encontrados e Soluções
 
-1️⃣ Erro 502 (Bad Gateway)
+1️⃣ Erro 502 (Bad Gateway) - PRINCIPAL DESAFIO
 
-Ao solicitar 100 repositórios com múltiplas métricas aninhadas, a API retornou:
+Ao solicitar 100 repositórios com múltiplas métricas aninhadas (especialmente `pullRequests(states: MERGED)`), a API retornava consistentemente:
 
         502 Bad Gateway
 
-Causa
+Causa:
 
-Alta complexidade da query (limitação da API GraphQL do GitHub).
+Alta complexidade da query - a API GraphQL do GitHub não consegue processar 100 repositórios com campos complexos de uma vez.
 
-Solução:
+Tentativas que NÃO funcionaram:
 
-→ Simplificação e validação progressiva da consulta.
+→ Aumentar timeout e número de retries
+
+→ Simplificar a query removendo campos (não era permitido pelo escopo do projeto)
+
+→ Usar paginação com cursor (não era permitido pelo escopo do projeto)
+
+✅ Solução Final Implementada:
+
+→ **Busca por faixas de estrelas**: Dividir a busca em 10 lotes de 10 repositórios cada, usando filtros de estrelas diferentes para cada lote (ex: `stars:>=200000`, `stars:150000..199999`, etc.)
+
+→ **Mecanismo de retry**: 10 tentativas por lote com delay linear (5s, 10s, 15s...)
+
+→ **Timeout aumentado**: 120 segundos por requisição
+
+→ **Pausa entre lotes**: 2 segundos para evitar rate limit
 
 2️⃣ Erro de Sintaxe GraphQL
 
@@ -190,7 +227,7 @@ Erro retornado:
 
         Expected NAME, actual: ("\n")
 
-Causa
+Causa:
 
 → Chaves {} não fechadas corretamente.
 
@@ -213,6 +250,20 @@ Solução:
 → Uso de Inline Fragment:
 
         ... on Repository
+
+4️⃣ Erro no arquivo .env
+
+Erro retornado:
+
+        python-dotenv could not parse statement starting at line 1
+
+Causa:
+
+→ Formato incorreto no arquivo `.env` (uso de `:` em vez de `=`).
+
+Solução:
+
+→ Corrigir para o formato correto: `GITHUB_TOKEN=seu_token_aqui`
 
 🚀 Como Executar o Projeto
 
@@ -279,25 +330,67 @@ Implementar consulta GraphQL para coletar dados de 100 repositórios populares c
 
 → Consulta GraphQL para os 100 repositórios mais estrelados
 
-→ Requisição automática via Python
+→ **Busca por lotes usando faixas de estrelas** (10 lotes de 10 repos)
 
-→ Autenticação com token GitHub
+→ **Mecanismo de retry automático** com backoff (10 tentativas, delay linear)
+
+→ Requisição automática via Python (requests + python-dotenv)
+
+→ Autenticação com token GitHub via arquivo .env
 
 → Coleta das métricas:
 
-    .createdAt
+    • nameWithOwner
 
-    .updatedAt
+    • createdAt
 
-    .pullRequests (MERGED)
+    • updatedAt
 
-    .releases
+    • stargazerCount
 
-    .issues
+    • pullRequests (MERGED)
 
-    .closedIssues
+    • releases
 
-    .primaryLanguage
+    • issues
+
+    • closedIssues
+
+    • primaryLanguage
+
+📊 Resultado da Execução
+
+```
+Iniciando busca de 100 repositórios em lotes por faixa de estrelas...
+(Sem paginação - usando filtros diferentes para cada lote)
+
+[Lote 1/10] Buscando: stars:>=200000
+  Tentativa 1/10...
+  ✓ Coletados 10 repositórios (total: 10)
+  ...
+[Lote 10/10] Buscando: stars:40000..44999
+  Tentativa 1/10...
+  ✓ Coletados 10 repositórios (total: 100)
+
+==================================================
+Total de repositórios coletados: 100
+==================================================
+```
+
+🏆 Top 10 Repositórios Coletados
+
+| # | Repositório | Estrelas | Linguagem |
+|---|-------------|----------|----------|
+| 1 | codecrafters-io/build-your-own-x | 472.553 | Markdown |
+| 2 | sindresorhus/awesome | 442.887 | - |
+| 3 | freeCodeCamp/freeCodeCamp | ~420k | TypeScript |
+| 4 | public-apis/public-apis | ~340k | Python |
+| 5 | kamranahmedse/developer-roadmap | ~320k | TypeScript |
+| 6 | jwasham/coding-interview-university | ~319k | - |
+| 7 | donnemartin/system-design-primer | ~298k | Python |
+| 8 | facebook/react | ~235k | JavaScript |
+| 9 | torvalds/linux | ~191k | C |
+| 10 | tensorflow/tensorflow | ~188k | C++ |
 
 📌 Status das RQs na Sprint 1
 RQ	Métricas Coletadas	RQ Respondida?
