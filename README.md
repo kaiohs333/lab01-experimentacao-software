@@ -100,7 +100,7 @@ Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints a
 
 #### Boxplot Prs
 
-![Boxplot Prs](figures/boxplot_prs.png)
+![Boxplot Prs](docs/Sprint3/figures/boxplot_prs.png)
 
 
 ## Discussões (insights)
