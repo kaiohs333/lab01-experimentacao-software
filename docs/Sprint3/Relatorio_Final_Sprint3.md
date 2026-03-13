@@ -121,6 +121,4 @@ Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints a
 - **RQ05**: Hipótese confirmada (Top linguagens contém Java, JavaScript, Python, TypeScript).
 - **RQ06**: Hipótese confirmada (Mediana da razão de issues fechadas = 87.78%).
 
----
 
-Relatório gerado automaticamente em 12/03/2026.
