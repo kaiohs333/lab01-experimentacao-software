@@ -151,18 +151,6 @@ O histograma de estrelas mostra a heterogeneidade de popularidade dentro da amos
 
 O gráfico de dispersão (com escalas log/symlog) permite analisar associação entre popularidade e contribuição externa. Observa-se tendência positiva geral, mas com ampla variabilidade: projetos com estrelas semelhantes podem ter volumes bem diferentes de PRs merged.
 
-#### Boxplot comparativo (idade, PRs e releases)
-
-![Boxplot comparativo](docs/Sprint3/figures/boxplot_metricas_comparadas.png)
-
-Este boxplot coloca três métricas lado a lado para comparar forma das distribuições. A visualização destaca que PRs e releases apresentam maior assimetria que idade, reforçando que atividade colaborativa e ritmo de versão variam mais entre projetos do que sua maturidade.
-
-#### Participação das 5 principais linguagens
-
-![Participação Top 5 Linguagens](docs/Sprint3/figures/participacao_top5_linguagens.png)
-
-O gráfico de pizza evidencia o peso relativo das cinco linguagens mais frequentes. A participação conjunta de 64.7% confirma concentração tecnológica significativa: poucas linguagens representam a maior parte da amostra.
-
 
 ## Discussões (insights)
 
