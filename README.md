@@ -6,7 +6,9 @@
 
 ## Introdução
 
-Este relatório final consolida os resultados do estudo sobre repositórios populares no GitHub, com base em 1000 repositórios coletados via API GraphQL. O foco é responder as questões de pesquisa (RQs) propostas no projeto.
+Este relatório final consolida os resultados de um estudo empírico sobre repositórios populares no GitHub, com base em uma amostra de 1000 projetos coletados via API GraphQL. A proposta do trabalho é investigar características de maturidade, colaboração, manutenção e tecnologia por meio de métricas observáveis e reproduzíveis.
+
+O estudo foi conduzido em três sprints: (1) validação da coleta e das queries, (2) escalabilidade com paginação e persistência dos dados em CSV, e (3) análise estatística com visualizações e tomada de decisão sobre hipóteses. A análise combina medidas de tendência central, distribuição e concentração, permitindo interpretar não apenas valores médios, mas também assimetria e variabilidade entre os projetos.
 
 ## Questões de pesquisa e hipóteses
 
@@ -25,7 +27,18 @@ Este relatório final consolida os resultados do estudo sobre repositórios popu
 
 ## Objetivo
 
-Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints anteriores, usando análise estatística descritiva e visualizações.
+Responder quantitativamente às 6 questões de pesquisa (RQs) com base em dados reais coletados nas sprints anteriores, utilizando análise estatística descritiva e visualizações para sustentar decisões.
+
+De forma específica, o objetivo é:
+
+- medir maturidade dos projetos (idade);
+- medir intensidade de contribuição externa (PRs merged);
+- medir regularidade de releases;
+- medir recência de manutenção (dias desde atualização);
+- identificar concentração tecnológica (linguagens predominantes);
+- avaliar saúde operacional (razão de issues fechadas).
+
+Além de responder "sim/não" para cada hipótese, o relatório busca explicar o comportamento das distribuições e os possíveis motivos para concentração de valores extremos.
 
 ## Metodologia
 
@@ -106,51 +119,74 @@ Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints a
 
 ![Top Linguagens](docs/Sprint3/figures/top_linguagens.png)
 
+Este gráfico de barras mostra a frequência das linguagens primárias nos 1000 repositórios analisados. A leitura indica forte concentração em Python, TypeScript e JavaScript, sugerindo predominância de ecossistemas amplamente adotados em projetos de alta visibilidade.
+
 #### Distribuicao Idade
 
 ![Distribuicao Idade](docs/Sprint3/figures/distribuicao_idade.png)
+
+O histograma de idade mostra como os projetos se distribuem por faixa etária. A mediana de 8.39 anos e o quartil superior acima de 11 anos reforçam que repositórios populares tendem a ser maduros, com histórico de evolução mais longo.
 
 #### Distribuicao Issues Fechadas
 
 ![Distribuicao Issues Fechadas](docs/Sprint3/figures/distribuicao_issues_fechadas.png)
 
+Este histograma evidencia a distribuição da razão de fechamento de issues. A concentração em valores altos (com mediana de 87.78%) indica que, para a maior parte dos projetos analisados, existe rotina consistente de triagem e resolução de problemas.
+
 #### Boxplot Prs
 
 ![Boxplot Prs](docs/Sprint3/figures/boxplot_prs.png)
+
+O boxplot resume dispersão e assimetria dos PRs merged. A distância entre mediana e limites superiores, somada à presença de valores extremos, mostra que poucos projetos concentram volume muito alto de contribuições, enquanto a maioria mantém níveis moderados.
 
 #### Distribuição de Estrelas
 
 ![Distribuição de Estrelas](docs/Sprint3/figures/distribuicao_estrelas.png)
 
+O histograma de estrelas mostra a heterogeneidade de popularidade dentro da amostra. Embora todos os projetos sejam populares, a distribuição evidencia diferentes "níveis" de popularidade, com cauda longa para repositórios excepcionalmente estrelados.
+
 #### Relação entre Estrelas e PRs
 
 ![Relação entre Estrelas e PRs](docs/Sprint3/figures/relacao_estrelas_prs.png)
+
+O gráfico de dispersão (com escalas log/symlog) permite analisar associação entre popularidade e contribuição externa. Observa-se tendência positiva geral, mas com ampla variabilidade: projetos com estrelas semelhantes podem ter volumes bem diferentes de PRs merged.
 
 #### Boxplot comparativo (idade, PRs e releases)
 
 ![Boxplot comparativo](docs/Sprint3/figures/boxplot_metricas_comparadas.png)
 
+Este boxplot coloca três métricas lado a lado para comparar forma das distribuições. A visualização destaca que PRs e releases apresentam maior assimetria que idade, reforçando que atividade colaborativa e ritmo de versão variam mais entre projetos do que sua maturidade.
+
 #### Participação das 5 principais linguagens
 
 ![Participação Top 5 Linguagens](docs/Sprint3/figures/participacao_top5_linguagens.png)
 
+O gráfico de pizza evidencia o peso relativo das cinco linguagens mais frequentes. A participação conjunta de 64.7% confirma concentração tecnológica significativa: poucas linguagens representam a maior parte da amostra.
+
 
 ## Discussões (insights)
 
-- A mediana de idade indica o nível de maturidade dos projetos mais populares.
-- A distribuição de PRs merged sugere presença de forte colaboração externa em parte dos projetos, mas com assimetria entre eles.
-- A distribuição de releases mostra que popularidade não implica necessariamente alta frequência de versões formais.
-- O tempo desde a última atualização aponta o quão ativos os projetos estão atualmente.
-- A distribuição de linguagens confirma concentração em poucas tecnologias amplamente adotadas.
-- A razão de issues fechadas permite avaliar o nível de manutenção/saúde operacional.
+- A maturidade observada (mediana de 8.39 anos) sugere que popularidade, em geral, está associada a trajetória longa de evolução e estabilização.
+- A colaboração externa é alta, mas desigual: a mediana de 739 PRs merged contrasta com percentis superiores muito elevados, indicando concentração de contribuição em subconjunto de projetos.
+- Releases apresentam comportamento heterogêneo: apesar de muitos projetos com alta frequência, parte relevante possui poucas releases, mostrando diferentes estratégias de versionamento.
+- A recência de atualização é extremamente alta (99.7% no mesmo dia e 100% em até 7 dias), reforçando um cenário de manutenção ativa na amostra.
+- A composição de linguagens confirma tendências atuais da indústria, com predominância de stacks modernas e de alta adoção comunitária.
+- A razão elevada de issues fechadas (mediana de 87.78%) indica boa capacidade operacional de resposta, triagem e resolução em grande parte dos repositórios.
+- Em conjunto, os resultados mostram que popularidade não depende de um único fator; ela emerge da combinação entre maturidade, atividade contínua, engajamento externo e governança técnica.
 
 ## Conclusão e tomadas de decisão (hipóteses)
 
-- **RQ01**: Hipótese confirmada (Mediana de idade = 8.39 anos).
-- **RQ02**: Hipótese confirmada (Mediana de PRs merged = 739).
-- **RQ03**: Hipótese confirmada (Mediana de releases = 40).
-- **RQ04**: Hipótese confirmada (Mediana desde última atualização = 0 dias).
-- **RQ05**: Hipótese confirmada (Top linguagens contém Java, JavaScript, Python, TypeScript).
-- **RQ06**: Hipótese confirmada (Mediana da razão de issues fechadas = 87.78%).
+Com base nas regras de decisão definidas na metodologia, todas as hipóteses foram confirmadas. Isso indica que, na amostra analisada, repositórios populares tendem a combinar maturidade histórica, manutenção recente, capacidade de colaboração externa e boa saúde operacional.
+
+Resumo das decisões:
+
+- **RQ01**: hipótese confirmada, pois a mediana de idade foi 8.39 anos (acima do limiar de 5 anos).
+- **RQ02**: hipótese confirmada, pois a mediana de PRs merged foi 739 (acima do limiar de 100).
+- **RQ03**: hipótese confirmada, pois a mediana de releases foi 40 (acima do limiar de 10).
+- **RQ04**: hipótese confirmada, pois a mediana de dias desde atualização foi 0 (abaixo do limiar de 30 dias).
+- **RQ05**: hipótese confirmada, pois as linguagens esperadas aparecem entre as mais frequentes.
+- **RQ06**: hipótese confirmada, pois a mediana da razão de issues fechadas foi 87.78% (acima do limiar de 80%).
+
+Como implicação prática, os resultados sugerem que projetos populares bem-sucedidos tendem a manter ciclo ativo de atualização, governança de issues e abertura para colaboração. Como limitação, a análise representa uma fotografia temporal da plataforma e pode variar conforme janela de coleta, critérios de busca e dinâmica do ecossistema.
 
 
