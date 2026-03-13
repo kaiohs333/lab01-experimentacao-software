@@ -83,6 +83,22 @@ Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints a
 - Média de dias desde atualização: **0.00 dias**
 - Média da razão de issues fechadas: **80.57%**
 
+### Métricas avançadas (distribuição)
+
+| Métrica | Q1 (25%) | Mediana (50%) | Q3 (75%) | P90 | P95 |
+|---|---:|---:|---:|---:|---:|
+| Idade (anos) | 5.01 | 8.39 | 11.42 | 13.57 | 14.75 |
+| PRs merged | 173.50 | 739.00 | 3207.25 | 9586.90 | 18266.40 |
+| Releases | 0.00 | 40.50 | 145.00 | 334.20 | 558.05 |
+| Razão de issues fechadas | 71.75% | 87.78% | 96.07% | 98.98% | 99.66% |
+
+### Métricas de atividade recente
+
+- Repositórios atualizados no mesmo dia da coleta: **997 / 1000 (99.7%)**
+- Repositórios atualizados em até 7 dias: **1000 / 1000 (100%)**
+- Repositórios atualizados em até 30 dias: **1000 / 1000 (100%)**
+- Participação das 5 linguagens mais frequentes: **64.7%** do total
+
 ### Gráficos
 
 
@@ -101,6 +117,22 @@ Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints a
 #### Boxplot Prs
 
 ![Boxplot Prs](docs/Sprint3/figures/boxplot_prs.png)
+
+#### Distribuição de Estrelas
+
+![Distribuição de Estrelas](docs/Sprint3/figures/distribuicao_estrelas.png)
+
+#### Relação entre Estrelas e PRs
+
+![Relação entre Estrelas e PRs](docs/Sprint3/figures/relacao_estrelas_prs.png)
+
+#### Boxplot comparativo (idade, PRs e releases)
+
+![Boxplot comparativo](docs/Sprint3/figures/boxplot_metricas_comparadas.png)
+
+#### Participação das 5 principais linguagens
+
+![Participação Top 5 Linguagens](docs/Sprint3/figures/participacao_top5_linguagens.png)
 
 
 ## Discussões (insights)
