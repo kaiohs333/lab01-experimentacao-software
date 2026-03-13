@@ -546,7 +546,7 @@ Nesta sprint foi realizada a coleta completa dos 1000 repositórios com exporta�
 Todas as métricas necessárias estão disponíveis no arquivo `repositorios.csv`.
 As RQs ainda não foram respondidas formalmente, aguardando análise estatística na Sprint 3.
 
-🔵 Sprint 3 — Lab01S03 (Planejada)
+🔵 Sprint 3 — Lab01S03 (Concluída)
 🎯 Objetivo
 
 → Cálculo de medianas
@@ -559,16 +559,36 @@ As RQs ainda não foram respondidas formalmente, aguardando análise estatístic
 
 → Relatório final
 
-📌 Status Esperado das RQs na Sprint 3
+✅ Implementado
 
-| RQ | Pergunta | Análise Planejada | RQ Respondida |
-|----|----------|-------------------|---------------|
-| RQ01 | Sistemas populares são maduros/antigos? | Mediana da idade em anos | ✔ |
-| RQ02 | Sistemas populares recebem muita contribuição externa? | Mediana de PRs aceitas | ✔ |
-| RQ03 | Sistemas populares lançam releases com frequência? | Mediana de releases | ✔ |
-| RQ04 | Sistemas populares são atualizados com frequência? | Mediana de dias desde atualização | ✔ |
-| RQ05 | Sistemas populares são escritos nas linguagens mais populares? | Distribuição de linguagens (moda) | ✔ |
-| RQ06 | Sistemas populares possuem alto percentual de issues fechadas? | Mediana da razão de issues fechadas | ✔ |
+→ Script `lab01s03.py` para análise automática do CSV da Sprint 2
+
+→ Geração do relatório final em Markdown: `docs/Sprint3/Relatorio_Final_Sprint3.md`
+
+→ Geração de 4 gráficos:
+  - `docs/Sprint3/figures/top_linguagens.png`
+  - `docs/Sprint3/figures/distribuicao_idade.png`
+  - `docs/Sprint3/figures/distribuicao_issues_fechadas.png`
+  - `docs/Sprint3/figures/boxplot_prs.png`
+
+→ Resposta das RQs com base em métricas de mediana/distribuição
+
+📌 Status das RQs na Sprint 3 (Respondidas)
+
+| RQ | Pergunta | Resultado | RQ Respondida |
+|----|----------|-----------|---------------|
+| RQ01 | Sistemas populares são maduros/antigos? | Mediana de idade = 8,39 anos | ✅ Sim |
+| RQ02 | Sistemas populares recebem muita contribuição externa? | Mediana de PRs merged = 739 | ✅ Sim |
+| RQ03 | Sistemas populares lançam releases com frequência? | Mediana de releases = 40 | ✅ Sim |
+| RQ04 | Sistemas populares são atualizados com frequência? | Mediana desde última atualização = 0 dias | ✅ Sim |
+| RQ05 | Sistemas populares são escritos nas linguagens mais populares? | Top linguagens incluem Python, TypeScript e JavaScript | ✅ Sim |
+| RQ06 | Sistemas populares possuem alto percentual de issues fechadas? | Mediana da razão de fechamento = 87,78% | ✅ Sim |
+
+📎 Artefatos finais da Sprint 3
+
+- `lab01s03.py`
+- `docs/Sprint3/Relatorio_Final_Sprint3.md`
+- `docs/Sprint3/figures/*.png`
 
 👨‍💻 Autor
 
