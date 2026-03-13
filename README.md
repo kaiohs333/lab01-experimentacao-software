@@ -1,8 +1,4 @@
-# Relatório Final — Experimentação de Software (Lab01)
-
-## Título
-
-Características de Repositórios Populares no GitHub: Coleta, Análise e Resposta às RQs
+# Características de Repositórios Populares no GitHub (Sprint 3)
 
 ## Autores
 
@@ -10,182 +6,119 @@ Características de Repositórios Populares no GitHub: Coleta, Análise e Respos
 
 ## Introdução
 
-Este projeto investigou características de repositórios populares no GitHub para responder 6 questões de pesquisa (RQs) relacionadas a maturidade, contribuição externa, releases, atualização, linguagem e fechamento de issues.
+Este relatório final consolida os resultados do estudo sobre repositórios populares no GitHub, com base em 1000 repositórios coletados via API GraphQL. O foco é responder as questões de pesquisa (RQs) propostas no projeto.
 
-O trabalho foi dividido em 3 sprints incrementais:
-
-- Sprint 1: coleta inicial (100 repositórios)
-- Sprint 2: coleta ampliada com paginação (1000 repositórios) e exportação CSV
-- Sprint 3: análise estatística, visualização e conclusões finais
-
----
-
-## Questões de Pesquisa (RQs) e Hipóteses
+## Questões de pesquisa e hipóteses
 
 - **RQ01**: Sistemas populares são maduros/antigos?
-  - Métrica: idade do repositório
   - Hipótese: sistemas populares tendem a ser mais antigos.
-
 - **RQ02**: Sistemas populares recebem muita contribuição externa?
-  - Métrica: total de pull requests aceitas
-  - Hipótese: sistemas populares têm alto volume de PRs aceitas.
-
+  - Hipótese: sistemas populares apresentam alto volume de PRs aceitas.
 - **RQ03**: Sistemas populares lançam releases com frequência?
-  - Métrica: total de releases
-  - Hipótese: sistemas populares publicam releases com frequência.
-
+  - Hipótese: sistemas populares lançam releases regularmente.
 - **RQ04**: Sistemas populares são atualizados com frequência?
-  - Métrica: tempo até a última atualização
-  - Hipótese: sistemas populares apresentam atualização recente.
-
+  - Hipótese: sistemas populares são atualizados recentemente.
 - **RQ05**: Sistemas populares são escritos nas linguagens mais populares?
-  - Métrica: linguagem primária
-  - Hipótese: predominância de linguagens amplamente adotadas.
-
+  - Hipótese: linguagens predominantes incluem JavaScript, Python, Java e TypeScript.
 - **RQ06**: Sistemas populares possuem alto percentual de issues fechadas?
-  - Métrica: razão entre issues fechadas e issues totais
-  - Hipótese: percentual de fechamento é alto.
-
----
+  - Hipótese: percentual de fechamento de issues é alto.
 
 ## Objetivo
 
-Construir um pipeline completo de coleta e análise para responder quantitativamente às RQs com base em dados reais da API GraphQL do GitHub.
+Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints anteriores, usando análise estatística descritiva e visualizações.
 
----
+## Metodologia
 
-## Metodologia Geral
+1. Leitura do arquivo CSV da Sprint 2 (`docs/Sprint2/repositorios.csv`).
+2. Limpeza e normalização dos dados numéricos.
+3. Cálculo de métricas centrais (média e mediana) por RQ.
+4. Geração de gráficos de distribuição e frequência.
+5. Interpretação dos resultados e decisão sobre as hipóteses.
 
-1. Coleta inicial e validação da query (Sprint 1)
-2. Escalonamento para 1000 repositórios com paginação (Sprint 2)
-3. Cálculo de métricas, geração de gráficos e conclusões (Sprint 3)
+### Regras de decisão adotadas
 
----
+- RQ01: hipótese confirmada se mediana da idade >= 5 anos.
+- RQ02: hipótese confirmada se mediana de PRs merged >= 100.
+- RQ03: hipótese confirmada se mediana de releases >= 10.
+- RQ04: hipótese confirmada se mediana de dias desde atualização <= 30.
+- RQ05: hipótese confirmada se ao menos 3 linguagens esperadas (JS/Python/Java/TS) aparecem no top 10.
+- RQ06: hipótese confirmada se mediana da razão de issues fechadas >= 80%.
 
-## Sprint 1 — Lab01S01
+## Resultados
 
-### O que foi feito
+### Tabela de respostas das RQs
 
-- Implementação da primeira coleta de dados via GraphQL
-- Coleta de 100 repositórios populares
-- Inclusão das métricas das RQs:
-  - `createdAt`, `updatedAt`
-  - `pullRequests(states: MERGED)`
-  - `releases`
-  - `issues`, `closedIssues`
-  - `primaryLanguage`
-- Implementação de retry para aumentar robustez
+| RQ | Métrica analisada | Resultado numérico | Resposta |
+|---|---|---|---|
+| RQ01 | Mediana da idade dos repositórios | 8.39 anos | Sim |
+| RQ02 | Mediana de PRs merged | 739 | Sim |
+| RQ03 | Mediana de releases | 40 | Sim |
+| RQ04 | Mediana de dias desde atualização | 0 dias | Sim |
+| RQ05 | Top linguagens | Python, TypeScript, JavaScript, Não especificada, Go | Sim |
+| RQ06 | Mediana da razão de issues fechadas | 87.78% | Sim |
 
-### Dificuldades encontradas
+### Tabela de linguagens (Top 10)
 
-- Erro **502 Bad Gateway** em consultas pesadas
-- Erros de sintaxe GraphQL e uso de union type
-- Problema de configuração no `.env`
+| Posição | Linguagem | Quantidade | Percentual |
+|---|---|---:|---:|
+| 1 | Python | 200 | 20.00% |
+| 2 | TypeScript | 160 | 16.00% |
+| 3 | JavaScript | 115 | 11.50% |
+| 4 | Não especificada | 95 | 9.50% |
+| 5 | Go | 77 | 7.70% |
+| 6 | Rust | 54 | 5.40% |
+| 7 | Java | 47 | 4.70% |
+| 8 | C++ | 46 | 4.60% |
+| 9 | C | 25 | 2.50% |
+| 10 | Jupyter Notebook | 23 | 2.30% |
 
-### Soluções aplicadas
+### Métricas gerais
 
-- Estratégia sem paginação por **lotes de faixas de estrelas** (10 lotes de 10)
-- Correção da query com `... on Repository`
-- Retry com espera entre tentativas
-- Correção de formato do `.env` para `GITHUB_TOKEN=...`
+- Total de repositórios analisados: **1000**
+- Faixa de estrelas: **29,574** a **472,576**
+- Média de estrelas: **58017**
+- Média de idade: **8.19 anos**
+- Média de PRs merged: **3956**
+- Média de releases: **120.67**
+- Média de dias desde atualização: **0.00 dias**
+- Média da razão de issues fechadas: **80.57%**
 
-### Conclusão da Sprint 1
+### Gráficos
 
-A sprint validou a arquitetura da coleta, estabilizou a consulta e garantiu a extração das métricas necessárias em pequena escala.
 
----
+#### Top Linguagens
 
-## Sprint 2 — Lab01S02
+![Top Linguagens](figures/top_linguagens.png)
 
-### O que foi feito
+#### Distribuicao Idade
 
-- Implementação de **paginação com cursor**
-- Coleta de **1000 repositórios**
-- Exportação dos dados para CSV (`docs/Sprint2/repositorios.csv`)
-- Criação de métricas derivadas:
-  - `idade_dias`
-  - `dias_desde_atualizacao`
-  - `razao_issues_fechadas`
+![Distribuicao Idade](figures/distribuicao_idade.png)
 
-### Dificuldades encontradas
+#### Distribuicao Issues Fechadas
 
-- Manter estabilidade em alto volume de requisições
-- Limites e intermitência da API
-- Padronização de dados para análise posterior
+![Distribuicao Issues Fechadas](figures/distribuicao_issues_fechadas.png)
 
-### Soluções aplicadas
+#### Boxplot Prs
 
-- Paginação (`first: 10`, `after: cursor`)
-- Retry com múltiplas tentativas e backoff
-- Timeout configurado para requisições longas
-- Normalização de campos para saída tabular consistente
+![Boxplot Prs](figures/boxplot_prs.png)
 
-### Conclusão da Sprint 2
 
-A sprint entregou a base definitiva de dados (1000 repositórios) em formato estruturado, pronta para análise estatística e visualização.
+## Discussões (insights)
 
----
+- A mediana de idade indica o nível de maturidade dos projetos mais populares.
+- A distribuição de PRs merged sugere presença de forte colaboração externa em parte dos projetos, mas com assimetria entre eles.
+- A distribuição de releases mostra que popularidade não implica necessariamente alta frequência de versões formais.
+- O tempo desde a última atualização aponta o quão ativos os projetos estão atualmente.
+- A distribuição de linguagens confirma concentração em poucas tecnologias amplamente adotadas.
+- A razão de issues fechadas permite avaliar o nível de manutenção/saúde operacional.
 
-## Sprint 3 — Lab01S03
+## Conclusão e tomadas de decisão (hipóteses)
 
-### O que foi feito
-
-- Implementação de script de análise (`lab01s03.py`)
-- Cálculo de medidas estatísticas (mediana e média)
-- Geração de gráficos em `docs/Sprint3/figures`
-- Geração do relatório final em Markdown
-- Resposta final das RQs
-
-### Dificuldades encontradas
-
-- Dependência de biblioteca para visualização (`matplotlib`)
-- Definição de regras objetivas para confirmar/rejeitar hipóteses
-- Garantia de consistência entre resultados numéricos e texto do relatório
-
-### Soluções aplicadas
-
-- Instalação e uso de `matplotlib`
-- Regras explícitas de decisão por RQ (medianas/limiares)
-- Automação da escrita do relatório a partir das métricas calculadas
-
-### Resultados (RQs respondidas)
-
-| RQ | Resultado | Resposta |
-|---|---|---|
-| RQ01 | Mediana de idade = 8,39 anos | Sim |
-| RQ02 | Mediana de PRs merged = 739 | Sim |
-| RQ03 | Mediana de releases = 40 | Sim |
-| RQ04 | Mediana desde última atualização = 0 dias | Sim |
-| RQ05 | Top linguagens inclui Python, TypeScript e JavaScript | Sim |
-| RQ06 | Mediana da razão de issues fechadas = 87,78% | Sim |
-
-### Conclusão da Sprint 3
-
-A sprint finalizou o ciclo analítico do experimento, com visualizações e respostas quantitativas para todas as RQs.
-
----
-
-## Discussões (Insights)
-
-- Repositórios populares tendem a ser maduros e ativos.
-- Há forte evidência de contribuição externa em escala.
-- Popularidade não implica distribuição homogênea de releases; existe assimetria entre projetos.
-- Linguagens dominantes confirmam tendências do ecossistema atual.
-- O alto percentual de issues fechadas indica manutenção ativa na maioria dos projetos.
-
----
-
-## Conclusão Final
-
-O projeto evoluiu de coleta inicial para análise completa, com robustez técnica e rastreabilidade dos resultados. As hipóteses propostas foram sustentadas pelos dados coletados e analisados. O processo em sprints permitiu validar incrementalmente consulta, escala e interpretação, resultando em um relatório final consistente e reproduzível.
-
-## Artefatos finais
-
-- `lab01s01.py`
-- `lab01s02.py`
-- `lab01s03.py`
-- `docs/Sprint2/repositorios.csv`
-- `docs/Sprint3/Relatorio_Final_Sprint3.md`
-- `docs/Sprint3/figures/*.png`
+- **RQ01**: Hipótese confirmada (Mediana de idade = 8.39 anos).
+- **RQ02**: Hipótese confirmada (Mediana de PRs merged = 739).
+- **RQ03**: Hipótese confirmada (Mediana de releases = 40).
+- **RQ04**: Hipótese confirmada (Mediana desde última atualização = 0 dias).
+- **RQ05**: Hipótese confirmada (Top linguagens contém Java, JavaScript, Python, TypeScript).
+- **RQ06**: Hipótese confirmada (Mediana da razão de issues fechadas = 87.78%).
 
 
