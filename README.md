@@ -88,15 +88,15 @@ Responder quantitativamente às 6 RQs com base nos dados coletados nas sprints a
 
 #### Top Linguagens
 
-![Top Linguagens](figures/top_linguagens.png)
+![Top Linguagens](docs/Sprint3/figures/top_linguagens.png)
 
 #### Distribuicao Idade
 
-![Distribuicao Idade](figures/distribuicao_idade.png)
+![Distribuicao Idade](docs/Sprint3/figures/distribuicao_idade.png)
 
 #### Distribuicao Issues Fechadas
 
-![Distribuicao Issues Fechadas](figures/distribuicao_issues_fechadas.png)
+![Distribuicao Issues Fechadas](docs/Sprint3/figures/distribuicao_issues_fechadas.png)
 
 #### Boxplot Prs
 

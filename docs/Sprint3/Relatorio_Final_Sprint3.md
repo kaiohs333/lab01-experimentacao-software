@@ -1,6 +1,86 @@
-# Características de Repositórios Populares no GitHub (Sprint 3)
+# Relatório Sprint 3 — Lab01S03
 
-## Autores
+## O que foi feito
+
+- Implementação do script `lab01s03.py` para análise estatística dos dados coletados na Sprint 2
+- Leitura e normalização do arquivo `docs/Sprint2/repositorios.csv` (1000 repositórios)
+- Cálculo de **média e mediana** para todas as métricas das RQs:
+  - Idade dos repositórios (`idade_dias`)
+  - Total de PRs merged (`prs_merged`)
+  - Total de releases (`releases`)
+  - Dias desde a última atualização (`dias_desde_atualizacao`)
+  - Razão de issues fechadas (`razao_issues_fechadas`)
+- Contagem e ranqueamento de linguagens primárias (Top 10)
+- Geração de 4 gráficos em `docs/Sprint3/figures/`:
+  - Gráfico de barras: Top linguagens
+  - Histograma: Distribuição de idade
+  - Histograma: Distribuição de issues fechadas
+  - Boxplot: Distribuição de PRs merged
+- Geração automática do relatório final em Markdown com tabelas, métricas e referências aos gráficos
+- Aplicação de **regras objetivas de decisão** para confirmar ou rejeitar cada hipótese
+
+---
+
+## Dificuldades encontradas
+
+### Dependência de biblioteca de visualização
+
+O ambiente não possuía `matplotlib` instalado, impedindo a geração dos gráficos na primeira execução.
+
+### Definição de critérios objetivos de decisão
+
+Era necessário estabelecer limiares claros e justificados para confirmar ou rejeitar cada hipótese, sem tornar os critérios arbitrários demais.
+
+### Consistência entre dados calculados e texto gerado
+
+O relatório é gerado automaticamente pelo script, então qualquer inconsistência entre variáveis e texto produziria um documento incorreto.
+
+### Caminhos relativos para os gráficos
+
+O script precisa referenciar os gráficos com caminhos corretos tanto para salvar os arquivos quanto para exibi-los no Markdown gerado.
+
+---
+
+## Soluções aplicadas
+
+- **Instalação de `matplotlib`** via `pip install matplotlib` no ambiente virtual
+- **Regras explícitas de decisão** documentadas por RQ (ex: RQ01 confirmada se mediana >= 5 anos)
+- **Automação completa da escrita do relatório** a partir das métricas calculadas, eliminando inconsistências manuais
+- **`BASE_DIR` e `os.path.join()`** usados para garantir caminhos absolutos e portáveis
+
+---
+
+## Resultados (RQs respondidas)
+
+| RQ | Métrica analisada | Resultado numérico | Hipótese |
+|---|---|---|---|
+| RQ01 | Mediana da idade dos repositórios | 8,39 anos | ✅ Confirmada |
+| RQ02 | Mediana de PRs merged | 739 | ✅ Confirmada |
+| RQ03 | Mediana de releases | 40 | ✅ Confirmada |
+| RQ04 | Mediana de dias desde atualização | 0 dias | ✅ Confirmada |
+| RQ05 | Top linguagens | Python, TypeScript, JavaScript | ✅ Confirmada |
+| RQ06 | Mediana da razão de issues fechadas | 87,78% | ✅ Confirmada |
+
+---
+
+## Conclusão da Sprint 3
+
+A sprint finalizou o ciclo analítico do experimento, com visualizações e respostas quantitativas para todas as 6 RQs. Todas as hipóteses foram confirmadas pelos dados. O processo automatizado garante reprodutibilidade total dos resultados.
+
+---
+
+## Artefatos gerados
+
+- `lab01s03.py` — script de análise e visualização
+- `docs/Sprint3/figures/top_linguagens.png`
+- `docs/Sprint3/figures/distribuicao_idade.png`
+- `docs/Sprint3/figures/distribuicao_issues_fechadas.png`
+- `docs/Sprint3/figures/boxplot_prs.png`
+- `docs/Sprint3/Relatorio_Final_Sprint3.md` — este relatório
+
+---
+
+
 
 - Kaio Henrique Oliveira da Silveira Barbosa
 
